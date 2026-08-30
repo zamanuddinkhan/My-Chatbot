@@ -1,4 +1,4 @@
-# AI Chatbot
+# Future - AI Chatbot
 
 A simple AI chatbot web application that allows users to communicate with an AI through a clean web interface.
 
