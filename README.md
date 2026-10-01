@@ -1,19 +1,25 @@
 # Future - AI Chatbot
 
-A simple AI chatbot web application that allows users to communicate with an AI through a clean web interface.
+A simple AI chatbot web application that allows users to communicate with an AI through a clean and responsive web interface.
 
-The project uses **Python and Flask** for the backend, **HTML, CSS, and JavaScript** for the frontend, **PostgreSQL** for database storage, and an **LLM API** to generate AI responses.
+The project uses **Python and FastAPI** for the backend, **HTML, CSS, and JavaScript** for the frontend, **MySQL** for database storage, and an **LLM API** to generate AI responses.
+
+The goal of this project is to build a complete full-stack AI chatbot while keeping the architecture simple, clean, and easy to understand.
+
+---
 
 ## Features
 
 * 💬 Chat with an AI assistant
-* 📝 Send and receive messages in real time
-* 🧠 AI-generated responses using an LLM API
-* 👤 User-friendly chat interface
-* 💾 Store chat and message data in PostgreSQL
-* 🔐 Environment variables for API keys and sensitive configuration
+* 📝 Send and receive messages through a web interface
+* 🧠 Generate AI responses using an LLM API
+* 👤 Clean and user-friendly chat interface
+* 💾 Store conversations and messages in MySQL
+* 🔐 Store API keys and sensitive configuration using environment variables
 * 📱 Responsive frontend
-* ⚡ Flask-based REST API
+* ⚡ FastAPI-based REST API
+
+---
 
 ## Tech Stack
 
@@ -21,51 +27,30 @@ The project uses **Python and Flask** for the backend, **HTML, CSS, and JavaScri
 
 * HTML5
 * CSS3
-* JavaScript
+* Vanilla JavaScript
 
 ### Backend
 
 * Python
-* Flask
-* Flask REST API
+* FastAPI
+* REST API
+* Uvicorn
 
 ### Database
 
-* PostgreSQL
+* MySQL
 
 ### AI
 
 * Large Language Model (LLM) API
 
-## Project Structure
+### Development Tools
 
-```text
-ai-chatbot/
-│
-├── backend/
-│   ├── app.py
-│   ├── routes/
-│   │   └── chat.py
-│   ├── models/
-│   │   └── chat.py
-│   ├── services/
-│   │   └── ai_service.py
-│   └── database.py
-│
-├── frontend/
-│   ├── index.html
-│   ├── css/
-│   │   └── style.css
-│   └── js/
-│       └── script.js
-│
-├── .env
-├── .gitignore
-├── requirements.txt
-└── README.md
-```
+* Git
+* GitHub
+* VS Code
 
-> The folder structure can be changed depending on the final implementation.
+---
 
 ## How the Project Works
 
@@ -76,37 +61,44 @@ Chat Interface
   ↓
 JavaScript
   ↓
-Flask Backend
+FastAPI Backend
   ↓
 LLM API
   ↓
 AI Response
   ↓
-Flask Backend
+FastAPI Backend
+  ↓
+MySQL Database
   ↓
 Chat Interface
 ```
 
 When a user sends a message:
 
-1. The user enters a message in the chatbot.
-2. JavaScript sends the message to the Flask backend.
-3. Flask processes the request.
+1. The user enters a message in the chatbot interface.
+2. JavaScript sends the message to the FastAPI backend.
+3. FastAPI receives and validates the request.
 4. The backend sends the message to the LLM API.
-5. The AI generates a response.
-6. Flask sends the response back to the frontend.
-7. The response is displayed in the chat window.
-8. Chat information can be stored in PostgreSQL.
+5. The LLM generates an AI response.
+6. FastAPI receives the AI response.
+7. The conversation data is stored in MySQL.
+8. FastAPI sends the response back to the frontend.
+9. JavaScript displays the AI response in the chat interface.
+
+---
 
 ## Requirements
 
-Before running the project, install:
+Before running the project, install the following:
 
 * Python 3.10+
-* PostgreSQL
+* MySQL 8.0+
 * Git
-* A code editor such as VS Code
-* An API key for your selected LLM provider
+* VS Code or another code editor
+* An API key for the selected LLM provider
+
+---
 
 ## Installation
 
@@ -122,26 +114,35 @@ Move into the project directory:
 cd ai-chatbot
 ```
 
+---
+
 ### 2. Create a Virtual Environment
 
-Windows:
+#### Windows
 
 ```bash
 python -m venv venv
 ```
 
-Activate it:
+Activate the virtual environment:
 
 ```bash
 venv\Scripts\activate
 ```
 
-Linux/macOS:
+#### Linux/macOS
 
 ```bash
 python3 -m venv venv
+```
+
+Activate it:
+
+```bash
 source venv/bin/activate
 ```
+
+---
 
 ### 3. Install Dependencies
 
@@ -149,24 +150,27 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+---
+
 ## Environment Variables
 
 Create a `.env` file in the project root:
 
 ```env
-FLASK_APP=backend/app.py
-FLASK_ENV=development
-
-DATABASE_URL=postgresql://username:password@localhost:5432/ai_chatbot
-
 LLM_API_KEY=your_api_key_here
+
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=ai_chatbot
 ```
 
 Replace the placeholder values with your actual configuration.
 
-**Do not upload your `.env` file to GitHub.**
+**Never expose API keys or database passwords in frontend JavaScript or commit the `.env` file to GitHub.**
 
-Add it to `.gitignore`:
+Add the following to `.gitignore`:
 
 ```gitignore
 .env
@@ -175,50 +179,82 @@ __pycache__/
 *.pyc
 ```
 
+---
+
 ## Database Setup
 
-Create a PostgreSQL database:
+Make sure MySQL is running.
+
+Create the database:
 
 ```sql
 CREATE DATABASE ai_chatbot;
 ```
 
-Configure the database connection in your application using the `DATABASE_URL` environment variable.
+Select the database:
 
-The database can be used to store information such as:
+```sql
+USE ai_chatbot;
+```
+
+The database will be used to store information such as:
 
 * Users
 * Conversations
 * Messages
 * Message timestamps
 
+The exact tables and relationships will be created as the backend is developed.
+
+---
+
 ## Running the Application
 
 Activate the virtual environment first.
 
-Then start the Flask server:
+Start the FastAPI development server:
 
 ```bash
-python backend/app.py
+uvicorn backend.main:app --reload
 ```
 
 The application will normally be available at:
 
 ```text
-http://127.0.0.1:5000
+http://127.0.0.1:8000
 ```
 
 Open the address in your browser.
 
-## API Example
+### FastAPI Documentation
 
-The frontend can send a request to the backend:
+FastAPI automatically provides interactive API documentation.
+
+Swagger UI:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+ReDoc:
+
+```text
+http://127.0.0.1:8000/redoc
+```
+
+---
+
+## API
+
+The frontend communicates with the backend through REST API endpoints.
+
+### Chat Endpoint
 
 ```http
 POST /api/chat
 ```
 
-Example request:
+### Request
 
 ```json
 {
@@ -226,13 +262,15 @@ Example request:
 }
 ```
 
-Example response:
+### Response
 
 ```json
 {
   "response": "Machine learning is a branch of artificial intelligence..."
 }
 ```
+
+---
 
 ## Example Chat
 
@@ -241,94 +279,61 @@ User:
 What is Python?
 
 AI:
-Python is a high-level programming language known for its
-simple syntax and wide range of applications.
+Python is a high-level programming language known for
+its simple syntax and wide range of applications.
 ```
+
+---
+
+## Database Design
+
+The database will store the chatbot's conversation data.
+
+A simplified structure can be represented as:
+
+```text
+Users
+  │
+  └── Conversations
+          │
+          └── Messages
+```
+
+### Users
+
+Stores user information.
+
+### Conversations
+
+Stores individual chat conversations.
+
+### Messages
+
+Stores messages sent by users and responses generated by the AI.
+
+Each message can contain information such as:
+
+* Message ID
+* Conversation ID
+* Message content
+* Sender type
+* Created timestamp
+
+---
 
 ## Security
 
-The project should follow these security practices:
+The project should follow basic security practices:
 
 * Never expose API keys in frontend JavaScript.
 * Store secrets in environment variables.
 * Add `.env` to `.gitignore`.
 * Validate user input on the backend.
-* Use secure database credentials.
-* Use HTTPS when deploying the application.
+* Use parameterized database queries.
+* Use secure MySQL credentials.
+* Do not store sensitive information unnecessarily.
+* Enable HTTPS when deploying the application.
 * Implement authentication before storing private user conversations.
+* Apply appropriate request validation and error handling.
 
-## Future Improvements
-
-Possible future improvements include:
-
-* User registration and login
-* Multiple conversations
-* Chat history
-* Delete conversations
-* Streaming AI responses
-* Markdown support
-* Code highlighting
-* File uploads
-* Voice input
-* Voice output
-* Dark mode
-* Mobile optimization
-* Conversation search
-* Deployment to a cloud platform
-
-## Screenshots
-
-Add screenshots of the chatbot interface here after completing the frontend.
-
-```text
-screenshots/
-├── home.png
-├── chat.png
-└── login.png
-```
-
-Example:
-
-```markdown
-![Chatbot Interface](screenshots/chat.png)
-```
-
-## Troubleshooting
-
-### API key error
-
-Check that your `.env` file contains the correct API key.
-
-### Database connection error
-
-Make sure PostgreSQL is running and that the database credentials are correct.
-
-### Module not found
-
-Activate your virtual environment and run:
-
-```bash
-pip install -r requirements.txt
-```
-
-### Port already in use
-
-Run Flask on another port or stop the application currently using port `5000`.
-
-## Development
-
-To contribute to the project:
-
-```bash
-git checkout -b feature/new-feature
-```
-
-Make your changes, then:
-
-```bash
-git add .
-git commit -m "Add new feature"
-git push origin feature/new-feature
-```
-
-Create a pull request on GitHub.
+---
